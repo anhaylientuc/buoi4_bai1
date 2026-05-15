@@ -2,25 +2,41 @@ import Table from 'react-bootstrap/Table';
 import Modal from 'react-bootstrap/Modal';
 import Button from 'react-bootstrap/Button';
 import Stack from 'react-bootstrap/Stack';
-
-import { students } from '../service/getAll.js'
+import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import { ModalAdd } from './ModalAdd.jsx';
+import { getAll, students } from '../service/StudentService.js';
+import { useSearchParams } from 'react-router-dom';
 export const ListStudents = () => {
     const [list, setlist] = useState([])
     const [show, setshow] = useState(false)
+    const navigate = useNavigate()
+    const [params]=useSearchParams();
+    const keyword=params.get('q');
+
     useEffect(() => {
-        setlist([...students])
-    }, [])
+        console.log(keyword)
+        if(keyword){
+            console.log(keyword)
+            const newStudents=getAll().filter(e=>{
+                return(e.name.toString()==keyword||e.subject.toString()==keyword||e.age.toString()==keyword)
+            })
+            setlist(newStudents)
+        }
+        else{
+            setlist(getAll());
+
+        }
+    }, [keyword])
     const addStudent = (e) => {
-        setlist([...list,e]);
+        setlist([...list, e]);
     }
-    const toggleModal=()=>{
+    const toggleModal = () => {
         setshow(!show);
     }
     return (
         <Stack className='container' direction='horizontal'>
-            <ModalAdd show={show} addStudent={addStudent} toggleModal={toggleModal}/>
+            <ModalAdd show={show} addStudent={addStudent} toggleModal={toggleModal} />
             <div>
                 <Table>
                     <thead>
@@ -28,7 +44,8 @@ export const ListStudents = () => {
                             <td>#</td>
                             <td>Name</td>
                             <td>Age</td>
-                            <td>Class</td>
+                            <td>Subject</td>
+                            <td>FN</td>
                         </tr>
 
                     </thead>
@@ -36,11 +53,17 @@ export const ListStudents = () => {
                         {
                             list && list.map((e, index) => {
                                 return (
-                                    <tr>
+                                    <tr key={index}>
                                         <td>{index}</td>
                                         <td>{e.name}</td>
                                         <td>{e.age}</td>
-                                        <td>{e.class}</td>
+                                        <td>{e.subject}</td>
+                                        <td>
+                                            <Button variant='secondary' onClick={() => {
+                                                navigate(`/${index}`)
+                                            }}>Info</Button>
+                                        </td>
+
                                     </tr>
                                 )
                             })
@@ -48,10 +71,6 @@ export const ListStudents = () => {
                     </tbody>
                 </Table>
             </div>
-            <Button onClick={()=>
-               toggleModal()
-            }>ADD</Button>
-
         </Stack>
 
     )

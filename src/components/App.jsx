@@ -1,0 +1,32 @@
+import React from "react";
+import {
+    Routes,
+    Route,
+    Link
+} from "react-router-dom"
+
+import { SearchStudent } from "./SearchStudent";
+import { FormAdd } from "./FormAdd";
+import { ListStudents } from "./ListStudents";
+import { DetailStudent } from "./DetailStudent";
+import Container from 'react-bootstrap/Container';
+import Nav from 'react-bootstrap/Nav';
+import Navbar from 'react-bootstrap/Navbar';
+import { HeaderStudent } from "./HeaderStudent";
+import { FooterStudent } from "./FooterStudent";
+import '../styles/app.css'
+export const App = () => {
+    return (
+        <>
+            <HeaderStudent/>
+            <Routes>
+
+                <Route path="/" element={<ListStudents />}></Route>
+                <Route path="/:id" element={<DetailStudent />}></Route>
+                <Route path="/add" element={<FormAdd />}></Route>
+            </Routes>
+            <FooterStudent/>
+        </>
+
+    )
+}
