@@ -1,23 +1,31 @@
 import Form from 'react-bootstrap/Form'
 import Button from 'react-bootstrap/Button'
-import { remove } from '../service/StudentService'
-import { useState } from 'react'
+import { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
-import { getAll,edit } from '../service/StudentService'
+import { StudentService } from '../service/StudentService'
 import { useNavigate } from 'react-router-dom'
 export const DetailStudent = () => {
-    const students=getAll();
-    const {id}=useParams()
-    const [name, setname] = useState(students[id].name)
-    const [age, setage] = useState(students[id].age)
-    const [subject, setsubject] = useState(students[id].subject)
-    const navigate=useNavigate();
-    const handleRemove=()=>{
-        remove(id);
+    const [name, setname] = useState('')
+    const [age, setage] = useState('')
+    const [subject, setsubject] = useState('')
+    const { id } = useParams()
+    const navigate = useNavigate();
+    useEffect(() => {
+        const fetchData = async () => {
+            const student = await StudentService.getById(id)
+            setname(student.name);
+            setage(student.age)
+            setsubject(student.subject)
+        }
+        fetchData();
+    }, [])
+
+    const handleRemove = async () => {
+        await StudentService.remove(id);
         navigate('/')
     }
-    const handleEdit=()=>{
-        edit(id,{name,age,subject});
+    const handleEdit = async () => {
+        await StudentService.edit(id, { name, age, subject });
         navigate('/')
     }
     return (

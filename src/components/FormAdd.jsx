@@ -2,7 +2,7 @@ import { Formik, Form, Field, ErrorMessage } from "formik";
 import Button from "react-bootstrap/esm/Button";
 import * as Yup from "yup";
 import { useNavigate } from "react-router-dom";
-import { insert } from "../service/StudentService";
+import { StudentService } from "../service/StudentService";
 export const FormAdd = () => {
     const navigate=useNavigate();
 
@@ -11,9 +11,8 @@ export const FormAdd = () => {
         age: Yup.number().required('require').typeError('must be a number'),
         subject: Yup.string().required('require')
     })
-    const handleSubmit=(values)=>{
-        console.log(values)
-        insert(values)
+    const handleSubmit=async (values)=>{
+        await StudentService.insert(values);
         navigate('/');
     }
     return (

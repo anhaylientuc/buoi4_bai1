@@ -5,27 +5,31 @@ import Stack from 'react-bootstrap/Stack';
 import { Link, useNavigate } from "react-router-dom";
 import { useEffect, useState } from 'react';
 import { ModalAdd } from './ModalAdd.jsx';
-import { getAll, students } from '../service/StudentService.js';
+import { StudentService } from '../service/StudentService.js';
 import { useSearchParams } from 'react-router-dom';
 export const ListStudents = () => {
     const [list, setlist] = useState([])
     const [show, setshow] = useState(false)
     const navigate = useNavigate()
-    const [params]=useSearchParams();
-    const keyword=params.get('q');
+    const [params] = useSearchParams();
+    const keyword = params.get('q');
 
     useEffect(() => {
-        console.log(keyword)
-        if(keyword){
-            console.log(keyword)
-            const newStudents=getAll().filter(e=>{
-                return(e.name.toString()==keyword||e.subject.toString()==keyword||e.age.toString()==keyword)
-            })
-            setlist(newStudents)
+        const fetchData = async () => {
+            const students = await StudentService.getAll();
+            console.log(students)
+            setlist(students);
         }
-        else{
-            setlist(getAll());
+        const fetchByKeyword = async () => {
+            const students = await StudentService.search(keyword);
+            console.log(students)
+            setlist(students);
+        }
 
+        if (!keyword)
+            fetchData();
+        else {
+            fetchByKeyword();
         }
     }, [keyword])
     const addStudent = (e) => {
@@ -60,7 +64,7 @@ export const ListStudents = () => {
                                         <td>{e.subject}</td>
                                         <td>
                                             <Button variant='secondary' onClick={() => {
-                                                navigate(`/${index}`)
+                                                navigate(`/${e.id}`)
                                             }}>Info</Button>
                                         </td>
 

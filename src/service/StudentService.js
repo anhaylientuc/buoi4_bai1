@@ -1,22 +1,61 @@
-export let students = [
-  { id: 1, name: "Nguyen Van A", age: 20, subject: "CNTT1" },
-  { id: 2, name: "Tran Thi B", age: 21, subject: "CNTT2" },
-  { id: 3, name: "Le Van C", age: 19, subject: "CNTT1" },
-  { id: 4, name: "Pham Van D", age: 22, subject: "CNTT3" },
-];
-export const getAll=()=>{
-    return students;
+import axios from "axios";
+const BASE_URL = import.meta.env.VITE_API_URL + '/students';
+const getAll = async () => {
+    try {
+        const res = await axios.get(BASE_URL);
+        console.log(res);
+        return res.data;
+    } catch (error) {
+        throw new Error(error.message);
+    }
 }
-export const insert=(value)=>{
-    students.push(value)
+const insert = async (value) => {
+    try {
+        const res = await axios.post(BASE_URL, value);
+        return res.data;
+    } catch (error) {
+        throw new Error(error.message);
+
+
+    }
 }
-export const remove=(id)=>{
-    students=students.filter((e,index)=>index!=id);
+const remove = async (id) => {
+    try {
+        const url = BASE_URL + '/' + id;
+        const res = await axios.delete(url);
+        return res.data;
+    } catch (error) {
+        throw new Error(error.message);
+
+
+    }
 }
-export const edit=(id,value)=>{
-    students=students.map((e,index)=>{
-        if(index==id)
-            return value;
-        return e;
-    })
+const edit = async (id, value) => {
+    try {
+        const url = BASE_URL + '/' + id;
+        const res = await axios.put(url, value);
+        return res.data;
+    } catch (error) {
+        throw new Error(error.message);
+    }
 }
+const getById = async (id) => {
+    try {
+        const url=BASE_URL+'/'+id;
+        const res=await axios.get(url);
+        return res.data;
+    } catch (error) {
+        throw new Error(error.message);
+
+    }
+}
+const search=async(keyword)=>{
+    try {
+        const url=BASE_URL+'?q='+keyword;
+        const res=await axios.get(url);
+        return res.data;
+    } catch (error) {
+        
+    }
+}
+export const StudentService = { getAll, insert, remove, edit,getById,search };
