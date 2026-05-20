@@ -41,21 +41,33 @@ const edit = async (id, value) => {
 }
 const getById = async (id) => {
     try {
-        const url=BASE_URL+'/'+id;
-        const res=await axios.get(url);
+        const url = BASE_URL + '/' + id;
+        const res = await axios.get(url);
         return res.data;
     } catch (error) {
         throw new Error(error.message);
 
     }
 }
-const search=async(keyword)=>{
+const search = async (keyword) => {
     try {
-        const url=BASE_URL+'?q='+keyword;
-        const res=await axios.get(url);
+        const url = BASE_URL + '?q=' + keyword;
+        const res = await axios.get(url);
         return res.data;
     } catch (error) {
-        
+        throw new Error(error.message);
+
     }
 }
-export const StudentService = { getAll, insert, remove, edit,getById,search };
+const login = async (data) => {
+    try {
+        const { email, password } = data;
+        const url = BASE_URL + `?email=${email}&password=${password}`;
+        const res = await axios.get(url);
+        return res.data;
+    } catch (error) {
+        throw new Error(error.message);
+
+    }
+}
+export const StudentService = { getAll, insert, remove, edit, getById, search, login };

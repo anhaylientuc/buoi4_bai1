@@ -1,4 +1,4 @@
-import React from "react";
+import{useEffect, React} from "react";
 import {
     Routes,
     Route,
@@ -15,18 +15,32 @@ import Navbar from 'react-bootstrap/Navbar';
 import { HeaderStudent } from "./HeaderStudent";
 import { FooterStudent } from "./FooterStudent";
 import '../styles/app.css'
+import { useSelector } from "react-redux";
+import { LoginStudent } from "./LoginStudent";
+import { useDispatch } from "react-redux";
+import { setUser } from "../features/login/loginSlice";
 export const App = () => {
+    const dispatch = useDispatch();
+    const isLogin = useSelector(state => state.auth.isLogin);
+
+    useEffect(() => {
+        const user = JSON.parse(localStorage.getItem('user'));
+
+        if (user) {
+            dispatch(setUser(user));
+        }
+    }, [dispatch]);
+    
     return (
-        <>
+        isLogin?<>
             <HeaderStudent/>
             <Routes>
-
                 <Route path="/" element={<ListStudents />}></Route>
                 <Route path="/:id" element={<DetailStudent />}></Route>
                 <Route path="/add" element={<FormAdd />}></Route>
             </Routes>
             <FooterStudent/>
-        </>
+        </>:<LoginStudent/>
 
     )
 }

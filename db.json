@@ -4,19 +4,57 @@
       "id": 1,
       "name": "Nguyen Van A",
       "age": 20,
-      "subject": "CNTT1"
+      "subject": "CNTT1",
+      "email": "a@gmail.com",
+      "password": "123456"
+    },
+    {
+      "id": 2,
+      "name": "Tran Thi B",
+      "age": 21,
+      "subject": "CNTT2",
+      "email": "b@gmail.com",
+      "password": "123456"
     },
     {
       "id": 3,
       "name": "Le Van C",
       "age": 19,
-      "subject": "CNTT1"
+      "subject": "CNTT1",
+      "email": "c@gmail.com",
+      "password": "123456"
     },
     {
       "id": 4,
       "name": "Pham Van D",
       "age": 22,
-      "subject": "CNTT3"
+      "subject": "CNTT3",
+      "email": "d@gmail.com",
+      "password": "123456"
+    },
+    {
+      "id": 5,
+      "name": "Nguyen Van E",
+      "age": 20,
+      "subject": "CNTT2",
+      "email": "e@gmail.com",
+      "password": "123456"
+    },
+    {
+      "id": 6,
+      "name": "Tran Van F",
+      "age": 23,
+      "subject": "CNTT1",
+      "email": "f@gmail.com",
+      "password": "123456"
+    },
+    {
+      "id": 7,
+      "name": "Le Thi G",
+      "age": 18,
+      "subject": "CNTT3",
+      "email": "g@gmail.com",
+      "password": "123456"
     }
   ]
 }
